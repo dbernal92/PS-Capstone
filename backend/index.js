@@ -8,7 +8,7 @@ import cors from 'cors';
 
 // Routers
 import { healthRouter } from './routes/health.js';
-import { workoutRouter } from './routes/workouts.js';
+import workoutRouter from './routes/workouts.js';
 
 const app = express();
 const PORT = process.env.PORT || 4000;
