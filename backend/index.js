@@ -8,10 +8,11 @@ import cors from 'cors';
 
 // Routers
 import { healthRouter } from './routes/health.js';
+import dashboardRouter from './routes/dashboard.js';
 import workoutRouter from './routes/workouts.js';
 import progressRouter from './routes/progress.js';
 import notesRouter from './routes/notes.js';
-
+import themeRouter from './routes/theme.js';
 
 const app = express();
 const PORT = process.env.PORT || 4000;
@@ -41,9 +42,11 @@ app.get('/', (req, res) => {
 
 // API routes
 app.use('/api/health', healthRouter);
+app.use('/api/dashboard', dashboardRouter);
 app.use('/api/workouts', workoutRouter);
 app.use('/api/progress', progressRouter);
 app.use('/api/notes', notesRouter)
+app.use('/api/theme', themeRouter);
 
 // Global Error Handling
 app.use((err, _req, res, next) => {
