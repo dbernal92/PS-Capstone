@@ -1,6 +1,7 @@
 import React from 'react';
 import WorkoutCard from './WorkoutCard';
 import Notes from '../pages/Notes';
+import ProgressTracker from '../pages/ProgressTracker';
 
 const sampleWorkout = {
     date: '2025-03-25',
@@ -24,6 +25,9 @@ const sampleWorkout = {
 const Main = () => {
     return (
         <>
+            <div>
+                <ProgressTracker />
+            </div>
             <div style={{ padding: '2rem' }}>
                 <h1>WorkoutCard Test</h1>
                 <WorkoutCard workout={sampleWorkout} unit="lbs" />
