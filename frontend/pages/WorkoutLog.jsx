@@ -1,17 +1,9 @@
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import WorkoutCard from '../components/WorkoutCard';
 import Card from '../components/Card';
 
-// import { fetchExercises } from "../src/api";
-import { fetchExercises } from "../src/api/exerciseDB";
-
-
 function WorkoutLog() {
     const [workouts, setWorkouts] = useState([]);
-
-    useEffect(() => {
-        fetchExercises();
-      }, []);
 
     const handleAddWorkout = (newWorkout) => {
         setWorkouts([newWorkout, ...workouts]);

@@ -2,17 +2,20 @@ import { useState, useEffect } from "react";
 import Card from "./Card";
 import Input from "./Input";
 import Button from "./Button";
-import { fetchExercises } from "../src/api/exerciseDB";
+import { fetchBodyParts, fetchExercisesByBodyPart } from "../src/api/exerciseDB"
 
 function WorkoutCard({ onSave }) {
     const [exercises, setExercises] = useState([]);
     const [filteredExercises, setFilteredExercises] = useState([]);
-    const [selectedExercise, setSelectedExercise] = useState("");
+
     const [bodyParts, setBodyParts] = useState([]);
     const [selectedBodyPart, setSelectedBodyPart] = useState("");
+
     const [equipmentOptions, setEquipmentOptions] = useState([]);
-    const [equipment, setEquipment] = useState("");
     const [selectedEquipment, setSelectedEquipment] = useState("");
+
+    const [selectedExercise, setSelectedExercise] = useState("");
+
     const [sets, setSets] = useState("");
     const [reps, setReps] = useState("");
     const [weight, setWeight] = useState("");
@@ -20,42 +23,51 @@ function WorkoutCard({ onSave }) {
 
     // Fetch exercises
     useEffect(() => {
-        async function loadExercises() {
-            try {
-                const data = await fetchExercises();
-                setExercises(data);
-
-                const uniqueBodyParts = [...new Set(data.map(ex => ex.bodyPart))];
-                const uniqueEquipment = [...new Set(data.map(ex => ex.equipment))];
-                setBodyParts(uniqueBodyParts);
-                setEquipmentOptions(uniqueEquipment);
-            } catch (error) {
-                console.error("Failed to fetch exercises:", error);
-            }
+        async function loadBodyParts() {
+            const parts = await fetchBodyParts();
+            console.log("Fetched body parts:", parts);
+            setBodyParts(parts);
         }
-
-        loadExercises();
+        loadBodyParts();
     }, []);
 
     // Filtering logic
     useEffect(() => {
-        const filtered = exercises.filter((ex) => {
-            return (
-                (!selectedBodyPart || ex.bodyPart === selectedBodyPart) &&
-                (!selectedEquipment || ex.equipment === selectedEquipment)
-            );
-        });
+        async function loadExercises() {
+            if (!selectedBodyPart) return;
 
+            const data = await fetchExercisesByBodyPart(selectedBodyPart);
+            setExercises(data);
+
+            // Extract unique equipment from the results
+            const equipmentSet = [...new Set(data.map(ex => ex.equipment))];
+            setEquipmentOptions(equipmentSet);
+            setSelectedEquipment(""); // reset equipment
+            setFilteredExercises([]); // clear filtered list
+            setSelectedExercise(""); // reset exercise
+        }
+
+        loadExercises();
+    }, [selectedBodyPart]);
+
+    useEffect(() => {
+        if (!selectedEquipment) {
+            setFilteredExercises([]);
+            return;
+        }
+
+        const filtered = exercises.filter(ex => ex.equipment === selectedEquipment);
         setFilteredExercises(filtered);
-        if (filtered.length > 0) setSelectedExercise(filtered[0].name); // default
-    }, [selectedBodyPart, selectedEquipment, exercises]);
+        setSelectedExercise(filtered[0]?.name || "");
+    }, [selectedEquipment]);
 
-    const handleExerciseChange = (e) => {
-        const name = e.target.value;
-        setSelectedExercise(name);
-        const match = exercises.find((ex) => ex.name === name);
-        if (match) setEquipment(match.equipment || "");
-    };
+
+    // const handleExerciseChange = (e) => {
+    //     const name = e.target.value;
+    //     setSelectedExercise(name);
+    //     const match = exercises.find((ex) => ex.name === name);
+    //     if (match) setEquipment(match.equipment || "");
+    // };
 
     const toggleUnit = () => {
         setUnit((prev) => (prev === "lbs" ? "kg" : "lbs"));
@@ -63,9 +75,13 @@ function WorkoutCard({ onSave }) {
 
     const handleSubmit = (e) => {
         e.preventDefault();
+
+        const matched = filteredExercises.find((ex) => ex.name === selectedExercise);
+        const finalEquipment = matched?.equipment || selectedEquipment;
+
         const workoutData = {
             exerciseName: selectedExercise,
-            equipment,
+            equipment: finalEquipment,
             sets,
             reps,
             weight,
@@ -78,29 +94,42 @@ function WorkoutCard({ onSave }) {
         <>
             <h2>Workout Entries</h2>
             <Card>
-                <h2>{selectedExercise || "Choose an exercise"}</h2>
                 <form onSubmit={handleSubmit}>
-                    {/* Equipment Dropdown */}
-                    <label>
-                        Equipment:
-                        <select value={selectedEquipment} onChange={(e) => setSelectedEquipment(e.target.value)}>
-                            <option value="">-- All --</option>
-                            {equipmentOptions.map((eq) => (
-                                <option key={eq} value={eq}>{eq}</option>
-                            ))}
-                        </select>
-                    </label>
+                    <label>Body Part</label>
+                    <select
+                        value={selectedBodyPart}
+                        onChange={(e) => setSelectedBodyPart(e.target.value)}
+                    >
+                        <option value="">Select a body part</option>
+                        {Array.isArray(bodyParts) && bodyParts.map((part) => (
+                            <option key={part} value={part}>
+                                {part}
+                            </option>
+                        ))}
+                    </select>
 
-                    {/* Filtered Exercise Dropdown */}
-                    <label>
-                        Exercise:
-                        <select value={selectedExercise} onChange={handleExerciseChange}>
-                            <option value="">-- Select --</option>
-                            {filteredExercises.map((ex) => (
-                                <option key={ex.id} value={ex.name}>{ex.name}</option>
-                            ))}
-                        </select>
-                    </label>
+                    {equipmentOptions.length > 0 && (
+                        <>
+                            <label>Equipment</label>
+                            <select value={selectedEquipment} onChange={(e) => setSelectedEquipment(e.target.value)}>
+                                <option value="">Select equipment</option>
+                                {equipmentOptions.map((eq) => (
+                                    <option key={eq} value={eq}>{eq}</option>
+                                ))}
+                            </select>
+                        </>
+                    )}
+
+                    {filteredExercises.length > 0 && (
+                        <>
+                            <label>Exercise</label>
+                            <select value={selectedExercise} onChange={(e) => setSelectedExercise(e.target.value)}>
+                                {filteredExercises.map((exercise) => (
+                                    <option key={exercise.id} value={exercise.name}>{exercise.name}</option>
+                                ))}
+                            </select>
+                        </>
+                    )}
 
                     <Input
                         label="Sets"
@@ -123,8 +152,10 @@ function WorkoutCard({ onSave }) {
                         onChange={(e) => setWeight(e.target.value)}
                     />
 
-                    <Button name={`Switch to ${unit === "lbs" ? "kg" : "lbs"}`} onClick={toggleUnit} />
-
+                    <Button
+                        name={`Switch to ${unit === "lbs" ? "kg" : "lbs"}`}
+                        onClick={toggleUnit}
+                    />
                     <Button type="submit" name="Save Workout" />
                 </form>
             </Card>
