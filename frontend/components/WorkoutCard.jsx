@@ -1,4 +1,5 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { getWorkouts } from "../src/api";
 import Card from "./Card";
 import Input from "./Input";
 import Button from "./Button";
@@ -8,9 +9,22 @@ function WorkoutCard() {
     const [reps, setReps] = useState("");
     const [weight, setWeight] = useState("");
     const [unit, setUnit] = useState("lbs");
-
-    // Placeholder — this will be replaced later with API-fetched options
+    const [workouts, setWorkouts] = useState([]);
     const [exercise, setExercise] = useState("Squat");
+
+    useEffect(() => {
+        async function fetchData() {
+            try {
+                const data = await getWorkouts();
+                console.log("Fetched workouts:", data);
+                setWorkouts(data);
+            } catch (error) {
+                console.error("Error fetching workouts:", error);
+            }
+        }
+
+        fetchData();
+    }, []);
 
     const toggleUnit = () => {
         setUnit((prev) => (prev === "lbs" ? "kg" : "lbs"));
@@ -34,7 +48,6 @@ function WorkoutCard() {
             <h2>Workout Entries</h2>
             <Card>
                 <h2>{exercise}</h2>
-
                 <form onSubmit={handleSubmit}>
                     <Input
                         label="Sets"
