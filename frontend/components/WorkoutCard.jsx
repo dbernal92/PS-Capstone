@@ -1,30 +1,61 @@
 import { useState, useEffect } from "react";
-import { getWorkouts } from "../src/api";
 import Card from "./Card";
 import Input from "./Input";
 import Button from "./Button";
+import { fetchExercises } from "../src/api/exerciseDB";
 
-function WorkoutCard() {
+function WorkoutCard({ onSave }) {
+    const [exercises, setExercises] = useState([]);
+    const [filteredExercises, setFilteredExercises] = useState([]);
+    const [selectedExercise, setSelectedExercise] = useState("");
+    const [bodyParts, setBodyParts] = useState([]);
+    const [selectedBodyPart, setSelectedBodyPart] = useState("");
+    const [equipmentOptions, setEquipmentOptions] = useState([]);
+    const [equipment, setEquipment] = useState("");
+    const [selectedEquipment, setSelectedEquipment] = useState("");
     const [sets, setSets] = useState("");
     const [reps, setReps] = useState("");
     const [weight, setWeight] = useState("");
     const [unit, setUnit] = useState("lbs");
-    const [workouts, setWorkouts] = useState([]);
-    const [exercise, setExercise] = useState("Squat");
 
+    // Fetch exercises
     useEffect(() => {
-        async function fetchData() {
+        async function loadExercises() {
             try {
-                const data = await getWorkouts();
-                console.log("Fetched workouts:", data);
-                setWorkouts(data);
+                const data = await fetchExercises();
+                setExercises(data);
+
+                const uniqueBodyParts = [...new Set(data.map(ex => ex.bodyPart))];
+                const uniqueEquipment = [...new Set(data.map(ex => ex.equipment))];
+                setBodyParts(uniqueBodyParts);
+                setEquipmentOptions(uniqueEquipment);
             } catch (error) {
-                console.error("Error fetching workouts:", error);
+                console.error("Failed to fetch exercises:", error);
             }
         }
 
-        fetchData();
+        loadExercises();
     }, []);
+
+    // Filtering logic
+    useEffect(() => {
+        const filtered = exercises.filter((ex) => {
+            return (
+                (!selectedBodyPart || ex.bodyPart === selectedBodyPart) &&
+                (!selectedEquipment || ex.equipment === selectedEquipment)
+            );
+        });
+
+        setFilteredExercises(filtered);
+        if (filtered.length > 0) setSelectedExercise(filtered[0].name); // default
+    }, [selectedBodyPart, selectedEquipment, exercises]);
+
+    const handleExerciseChange = (e) => {
+        const name = e.target.value;
+        setSelectedExercise(name);
+        const match = exercises.find((ex) => ex.name === name);
+        if (match) setEquipment(match.equipment || "");
+    };
 
     const toggleUnit = () => {
         setUnit((prev) => (prev === "lbs" ? "kg" : "lbs"));
@@ -33,22 +64,44 @@ function WorkoutCard() {
     const handleSubmit = (e) => {
         e.preventDefault();
         const workoutData = {
-            exercise,
+            exerciseName: selectedExercise,
+            equipment,
             sets,
             reps,
             weight,
             unit,
         };
-        console.log("Workout Data:", workoutData);
-        // Later you’ll send this to your backend
-    };
+        if (onSave) onSave(workoutData);
+    }
 
     return (
         <>
             <h2>Workout Entries</h2>
             <Card>
-                <h2>{exercise}</h2>
+                <h2>{selectedExercise || "Choose an exercise"}</h2>
                 <form onSubmit={handleSubmit}>
+                    {/* Equipment Dropdown */}
+                    <label>
+                        Equipment:
+                        <select value={selectedEquipment} onChange={(e) => setSelectedEquipment(e.target.value)}>
+                            <option value="">-- All --</option>
+                            {equipmentOptions.map((eq) => (
+                                <option key={eq} value={eq}>{eq}</option>
+                            ))}
+                        </select>
+                    </label>
+
+                    {/* Filtered Exercise Dropdown */}
+                    <label>
+                        Exercise:
+                        <select value={selectedExercise} onChange={handleExerciseChange}>
+                            <option value="">-- Select --</option>
+                            {filteredExercises.map((ex) => (
+                                <option key={ex.id} value={ex.name}>{ex.name}</option>
+                            ))}
+                        </select>
+                    </label>
+
                     <Input
                         label="Sets"
                         type="number"
