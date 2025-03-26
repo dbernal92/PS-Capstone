@@ -1,9 +1,26 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import WorkoutCard from '../components/WorkoutCard';
 import Card from '../components/Card';
 
+import { getWorkouts } from "../src/api";
+
+
 function WorkoutLog() {
   const [workouts, setWorkouts] = useState([]);
+
+  useEffect(() => {
+    async function fetchWorkouts() {
+      try {
+        const data = await getWorkouts();
+        setWorkouts(data); // update state with backend data
+      } catch (err) {
+        console.error("Failed to fetch workouts:", err);
+      }
+    }
+  
+    fetchWorkouts();
+  }, []);
+  
 
   const handleAddWorkout = (newWorkout) => {
     setWorkouts([newWorkout, ...workouts]);

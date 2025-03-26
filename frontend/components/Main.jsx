@@ -1,42 +1,19 @@
-import React from 'react';
-import WorkoutCard from './WorkoutCard';
-import Notes from '../pages/Notes';
-import ProgressTracker from '../pages/ProgressTracker';
+import { Outlet } from "react-router-dom";
+import Header from "./Header";
+import NavBar from "./NavBar";
 
-const sampleWorkout = {
-    date: '2025-03-25',
-    exercises: [
-        {
-            exerciseName: 'Bench Press',
-            equipment: 'Barbell',
-            sets: 3,
-            reps: 10,
-            weight: 135
-        },
-        {
-            exerciseName: 'Pull-ups',
-            equipment: 'Bodyweight',
-            sets: 3,
-            reps: 8
-        }
-    ]
-};
+function Main() {
+  return (
+    <div className="app-container" style={{ minHeight: "100vh", display: "flex", flexDirection: "column", justifyContent: "space-between" }}>
+      <Header />
+      
+      <main style={{ flex: 1 }}>
+        <Outlet /> {/* This renders your current page */}
+      </main>
 
-const Main = () => {
-    return (
-        <>
-            <div>
-                <ProgressTracker />
-            </div>
-            <div style={{ padding: '2rem' }}>
-                <h1>WorkoutCard Test</h1>
-                <WorkoutCard workout={sampleWorkout} unit="lbs" />
-            </div>
-            <div>
-                <Notes />
-            </div>
-        </>
-    );
-};
+      <NavBar />
+    </div>
+  );
+}
 
 export default Main;
