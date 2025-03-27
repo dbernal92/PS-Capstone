@@ -48,34 +48,66 @@ A full-stack MERN (MongoDB, Express.js, React, Node.js) fitness tracking applica
 
 ---
 
-## Folder Structure
+## API Endpoints & Technologies Used
 
-```
-frontend/
-├── components/
-│   ├── Button.jsx
-│   ├── Card.jsx
-│   ├── Input.jsx
-│   └── WorkoutCard.jsx
-├── pages/
-│   ├── Dashboard.jsx
-│   ├── Notes.jsx
-│   ├── ProgressTracker.jsx
-│   ├── Settings.jsx
-│   └── WorkoutLog.jsx
-├── api/
-│   ├── exerciseDB.js     // handles external API
-│   └── api.js            // local API config
-├── App.jsx
-├── index.css
-└── main.jsx
+### 🛠️ Technologies
+- **Node.js** & **Express.js** – For building the RESTful API.
+- **MongoDB** & **Mongoose** – For schema modeling and data storage.
+- **Fetch API** – Used on the frontend to handle requests to the backend.
+- **ExerciseDB API** – For fetching real exercise data based on body part and equipment.
 
-backend/
-├── models/
-├── routes/
-├── controllers/
-└── server.js
-```
+---
+
+### 🏋️ Workout Endpoints
+
+| Method | Endpoint            | Description                       |
+|--------|---------------------|-----------------------------------|
+| GET    | `/api/workouts`     | Get all saved workouts            |
+| POST   | `/api/workouts`     | Save a new workout session        |
+| PUT    | `/api/workouts/:id` | Edit an existing workout by ID    |
+| DELETE | `/api/workouts/:id` | Delete a workout by ID            |
+
+---
+
+### 📈 Progress Tracker Endpoints
+
+| Method | Endpoint              | Description                          |
+|--------|-----------------------|--------------------------------------|
+| GET    | `/api/progress`       | Get all progress entries             |
+| POST   | `/api/progress`       | Add a new progress entry             |
+| PUT    | `/api/progress/:id`   | Update a specific progress entry     |
+| DELETE | `/api/progress/:id`   | Delete a progress entry by ID        |
+
+#### Custom Progress Endpoints
+
+| Method | Endpoint                    | Description                          |
+|--------|-----------------------------|--------------------------------------|
+| GET    | `/api/progress/streak`      | Get current workout streak           |
+| GET    | `/api/progress/weekly`      | Get weekly progress breakdown        |
+| GET    | `/api/progress/summary`     | Get a summary of recent progress     |
+
+---
+
+### 📝 Notes (Journal) Endpoints
+
+| Method | Endpoint        | Description               |
+|--------|------------------|---------------------------|
+| GET    | `/api/notes`     | Fetch all notes           |
+| POST   | `/api/notes`     | Create a new journal note |
+| DELETE | `/api/notes/:id` | Delete a note by ID       |
+
+---
+
+### ⚙️ Frontend Routes
+
+| Path           | Page             | Description                        |
+|----------------|------------------|------------------------------------|
+| `/`            | Dashboard        | Homepage or summary page           |
+| `/workout-log` | Workout Log      | Log and view workout sessions      |
+| `/progress`    | Progress Tracker | Visualize body changes over time   |
+| `/notes`       | Notes            | Journal entries and reflection     |
+| `/settings`    | Settings         | Choose theme and unit preferences  |
+
 
 ---
 
