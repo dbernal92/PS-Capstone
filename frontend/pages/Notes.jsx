@@ -6,7 +6,8 @@ import Card from "../components/Card";
 function Notes() {
   const [notes, setNotes] = useState([]);
   const [noteText, setNoteText] = useState("");
-  const [noteDate, setNoteDate] = useState(new Date().toISOString().split("T")[0]);
+  const [noteDate, setNoteDate] = useState(new Date().toLocaleDateString("en-CA"));
+
   const [editingId, setEditingId] = useState(null);
   const [editingText, setEditingText] = useState("");
   const [editingDate, setEditingDate] = useState("");
@@ -44,7 +45,7 @@ function Notes() {
       const saved = await res.json();
       setNotes([saved, ...notes]);
       setNoteText("");
-      setNoteDate(new Date().toISOString().split("T")[0]);
+      setNoteDate(new Date().toLocaleDateString("en-CA"));
     } catch (err) {
       console.error("Error saving note:", err);
     }
@@ -73,15 +74,21 @@ function Notes() {
       const res = await fetch(`http://localhost:4000/api/notes/${editingId}`, {
         method: "PUT",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ text: editingText, date: editingDate }),
+        body: JSON.stringify({
+          text: editingText.trim(),
+          date: editingDate,
+        }),
       });
 
       if (!res.ok) throw new Error("Failed to update note");
 
       const updated = await res.json();
-      const updatedList = notes.map((n) => (n._id === editingId ? updated : n));
-      const sorted = [...updatedList].sort((a, b) => new Date(b.date) - new Date(a.date));
-      setNotes(sorted);
+
+      setNotes((prev) =>
+        prev.map((n) => (n._id === updated._id ? updated : n))
+      );
+
+      // Reset editing state
       setEditingId(null);
       setEditingText("");
       setEditingDate("");
@@ -148,7 +155,14 @@ function Notes() {
           ) : (
             <>
               <p>{note.text}</p>
-              <p><strong>{new Date(note.date).toLocaleDateString()}</strong></p>
+              <p>
+                <strong>{new Date(note.date).toLocaleDateString(undefined, {
+                  weekday: "long",
+                  year: "numeric",
+                  month: "short",
+                  day: "numeric"
+                })}</strong>
+              </p>
               <Button name="Edit" onClick={() => handleEdit(note)} />
               <Button name="Delete" onClick={() => handleDelete(note._id)} />
             </>

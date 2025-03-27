@@ -126,44 +126,58 @@ function ProgressTracker() {
       <h2>Track Your Progress</h2>
 
       <form onSubmit={handleSubmit}>
-        <Input
-          label="Date"
-          name="entryDate"
-          type="date"
-          value={entryDate}
-          onChange={(e) => setEntryDate(e.target.value)}
-        />
+        <div className="form-group">
+          <label>Date</label>
+          <Input
+            type="date"
+            name="entryDate"
+            value={entryDate}
+            onChange={(e) => setEntryDate(e.target.value)}
+          />
+        </div>
 
-        <Input
-          label="Weight (lbs)"
-          name="weight"
-          type="number"
-          value={weight}
-          onChange={(e) => setWeight(e.target.value)}
-          step={0.1}
-        />
-        <Input
-          label="Body Fat %"
-          name="bodyFat"
-          type="number"
-          value={bodyFat}
-          onChange={(e) => setBodyFat(e.target.value)}
-          step={0.1}
-        />
-        <Button type="submit" name="Add Entry" />
+        <div className="form-row">
+          <div className="form-group">
+            <Input
+              label="Weight (lbs)"
+              name="weight"
+              type="number"
+              value={weight}
+              onChange={(e) => setWeight(e.target.value)}
+              step={0.1}
+            />
+          </div>
+          <div className="form-group">
+            <Input
+              label="Body Fat %"
+              name="bodyFat"
+              type="number"
+              value={bodyFat}
+              onChange={(e) => setBodyFat(e.target.value)}
+              step={0.1}
+            />
+          </div>
+        </div>
+
+        <div className="form-button-row">
+          <Button type="submit" name="Add Entry" />
+        </div>
       </form>
 
-      <label htmlFor="filter">Filter Entries:</label>
-      <select
-        id="filter"
-        value={filter}
-        onChange={(e) => setFilter(e.target.value)}
-        style={{ marginLeft: "0.5rem", marginBottom: "1rem" }}
-      >
-        <option value="all">All</option>
-        <option value="week">This Week</option>
-        <option value="month">This Month</option>
-      </select>
+      {/* Filter dropdown */}
+      <div className="filter-row">
+        <label htmlFor="filter">Filter Entries:</label>
+        <select
+          id="filter"
+          value={filter}
+          onChange={(e) => setFilter(e.target.value)}
+        >
+          <option value="all">All</option>
+          <option value="week">This Week</option>
+          <option value="month">This Month</option>
+        </select>
+      </div>
+
 
       {/* Chart */}
       {filteredEntries.length > 1 && (

@@ -4,16 +4,18 @@ import NavBar from "./NavBar";
 
 function Main() {
   return (
-    <div className="app-container" style={{ minHeight: "100vh", display: "flex", flexDirection: "column", justifyContent: "space-between" }}>
-      <Header />
-      
-      <main style={{ flex: 1 }}>
-        <Outlet /> {/* This renders your current page */}
-      </main>
-
+    <>
       <NavBar />
-    </div>
+      <div className="app-container">
+        <div className="content-scroll-container">
+          <main>
+            <Outlet />
+          </main>
+        </div>
+      </div>
+    </>
   );
 }
+
 
 export default Main;

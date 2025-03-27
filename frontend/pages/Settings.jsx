@@ -1,71 +1,47 @@
-import { useState } from 'react';
-import Card from '../components/Card';
-import Input from '../components/Input';
-import Button from '../components/Button';
+import { useState, useEffect } from "react";
+import Card from "../components/Card";
 
 function Settings() {
-  const [mode, setMode] = useState('light');
-  const [accentColor, setAccentColor] = useState('#2196f3'); // default blue
-  const [unit, setUnit] = useState('lbs');
+  const [theme, setTheme] = useState(localStorage.getItem("theme") || "retro");
+  const [unit, setUnit] = useState(localStorage.getItem("unit") || "lbs");
 
-  const handleSave = (e) => {
-    e.preventDefault();
-    const themeSettings = {
-      mode,
-      accentColor,
-      unit
-    };
-    console.log('Saved settings:', themeSettings);
+  useEffect(() => {
+    document.documentElement.setAttribute("data-theme", theme);
+  }, [theme]);
+
+  const saveSettings = () => {
+    localStorage.setItem("theme", theme);
+    localStorage.setItem("unit", unit);
+    window.location.reload();
   };
 
   return (
-    <div>
+    <Card className="settings-inner">
       <h2>Settings</h2>
 
-      <form onSubmit={handleSave}>
-        <Card>
+      <div className="dropdown-row">
+        <div className="form-group">
           <h3>Theme</h3>
+          <select value={theme} onChange={(e) => setTheme(e.target.value)}>
+            <option value="retro">Retro Theme</option>
+            <option value="light">Light Mode</option>
+            <option value="dark">Dark Mode</option>
+          </select>
+        </div>
 
-          <label>
-            <input
-              type="radio"
-              name="mode"
-              value="light"
-              checked={mode === 'light'}
-              onChange={() => setMode('light')}
-            />
-            Light Mode
-          </label>
-          <label>
-            <input
-              type="radio"
-              name="mode"
-              value="dark"
-              checked={mode === 'dark'}
-              onChange={() => setMode('dark')}
-            />
-            Dark Mode
-          </label>
-
-          <Input
-            label="Accent Color"
-            type="color"
-            value={accentColor}
-            onChange={(e) => setAccentColor(e.target.value)}
-          />
-        </Card>
-
-        <Card>
+        <div className="form-group">
           <h3>Unit Preference</h3>
           <select value={unit} onChange={(e) => setUnit(e.target.value)}>
             <option value="lbs">Pounds (lbs)</option>
             <option value="kg">Kilograms (kg)</option>
           </select>
-        </Card>
+        </div>
+      </div>
 
-        <Button type="submit" name="Save Settings" />
-      </form>
-    </div>
+      <div style={{ textAlign: "center", marginTop: "1rem" }}>
+        <button className="btn" onClick={saveSettings}>Save Settings</button>
+      </div>
+    </Card>
   );
 }
 

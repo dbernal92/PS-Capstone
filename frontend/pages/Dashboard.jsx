@@ -7,31 +7,29 @@ function Dashboard() {
     const [weekStats, setWeekStats] = useState([]);
     const [loggedThisWeek, setLoggedThisWeek] = useState(0);
 
-
-    // Simulate fetching recent workouts from localStorage or mock data
     useEffect(() => {
         async function fetchWorkouts() {
             try {
                 const res = await fetch("http://localhost:4000/api/workouts");
                 if (!res.ok) throw new Error("Failed to fetch workouts");
                 const data = await res.json();
-                setWorkouts(data);
-    
-                // Get start and end of current week (Sun - Sat)
+
+                const sorted = [...data].sort((a, b) => new Date(b.date) - new Date(a.date));
+                setWorkouts(sorted);
+
                 const today = new Date();
                 const startOfWeek = new Date(today);
                 startOfWeek.setDate(today.getDate() - today.getDay());
                 startOfWeek.setHours(0, 0, 0, 0);
-    
+
                 const endOfWeek = new Date(startOfWeek);
                 endOfWeek.setDate(startOfWeek.getDate() + 6);
                 endOfWeek.setHours(23, 59, 59, 999);
-    
-                // Fill weekly activity (Sun to Sat)
+
                 const dummyWeek = Array(7).fill(false);
                 let countThisWeek = 0;
-    
-                data.forEach(w => {
+
+                sorted.forEach(w => {
                     const workoutDate = new Date(w.date);
                     if (workoutDate >= startOfWeek && workoutDate <= endOfWeek) {
                         const day = workoutDate.getDay();
@@ -39,24 +37,30 @@ function Dashboard() {
                         countThisWeek++;
                     }
                 });
-    
+
                 setWeekStats(dummyWeek);
-                setLoggedThisWeek(countThisWeek); // ← You’ll need to track this in state
-    
+                setLoggedThisWeek(countThisWeek);
+
             } catch (err) {
                 console.error("Error loading workouts:", err);
             }
         }
-    
+
         fetchWorkouts();
     }, []);
-    
+
+    const formatFullDate = (dateStr) =>
+        new Date(dateStr).toLocaleDateString("en-US", {
+            weekday: "long",
+            month: "long",
+            day: "numeric",
+            year: "numeric"
+        });
 
     return (
         <div>
             <h1>Dashboard</h1>
 
-            {/* Quick Button */}
             <Button
                 name="+ Quick Log Workout"
                 onClick={() => window.location.href = "/workouts"}
@@ -76,7 +80,7 @@ function Dashboard() {
                                 width: "30px",
                                 height: "30px",
                                 borderRadius: "50%",
-                                backgroundColor: weekStats[i] ? "#4caf50" : "#ccc"
+                                backgroundColor: weekStats[i] ? "#030bfc" : "#ccc"
                             }} />
                         </div>
                     ))}
@@ -91,31 +95,61 @@ function Dashboard() {
                 {workouts.length === 0 ? (
                     <p>No workouts yet.</p>
                 ) : (
-                    <ul>
+                    <ul style={{ paddingLeft: "1rem" }}>
                         {workouts.slice(0, 3).map((w, i) => (
-                            <li key={i}>
-                                <strong>Workout {i + 1} – {new Date(w.date).toLocaleDateString()}</strong>
-                                <ul>
+                            <li key={i} style={{ marginBottom: "1.2rem" }}>
+                                <strong>{formatFullDate(w.date)}</strong>
+                                <ul style={{ marginTop: "0.25rem" }}>
                                     {w.exercises.map((ex, j) => (
                                         <li key={j}>
-                                            {ex.exerciseName}: {ex.sets}x{ex.reps} @ {ex.weight}{ex.unit}
+                                            {ex.exerciseName.toLowerCase()}: {ex.sets}x{ex.reps} @ {ex.weight}{ex.unit}
                                         </li>
                                     ))}
                                 </ul>
                             </li>
                         ))}
                     </ul>
-
                 )}
+                <div style={{ textAlign: "center", marginTop: "1rem" }}>
+                    <Button name="View All Workouts" onClick={() => window.location.href = "/workout-log"} />
+                </div>
             </Card>
 
             <br />
 
-            {/* Optional: Streak/Stats */}
+            {/* Stats */}
             <Card>
-                <h2>Stats</h2>
-                <p>Total logged workouts: {workouts.length}</p>
-                <p>Logged this week: {loggedThisWeek}</p>
+                <h2 style={{ textAlign: "center" }}>Stats</h2>
+                <div style={{
+                    display: "flex",
+                    justifyContent: "space-evenly",
+                    marginTop: "1rem",
+                    gap: "2rem",
+                    flexWrap: "wrap"
+                }}>
+                    <div style={{
+                        padding: "1rem",
+                        border: "1px solid var(--accent-color)",
+                        borderRadius: "10px",
+                        boxShadow: "0 0 8px var(--accent-color)",
+                        minWidth: "140px",
+                        textAlign: "center"
+                    }}>
+                        <p style={{ margin: 0 }}>🏋️ Total</p>
+                        <strong>{workouts.length}</strong>
+                    </div>
+                    <div style={{
+                        padding: "1rem",
+                        border: "1px solid var(--accent-color)",
+                        borderRadius: "10px",
+                        boxShadow: "0 0 8px var(--accent-color)",
+                        minWidth: "140px",
+                        textAlign: "center"
+                    }}>
+                        <p style={{ margin: 0 }}>📅 This Week</p>
+                        <strong>{loggedThisWeek}</strong>
+                    </div>
+                </div>
             </Card>
         </div>
     );

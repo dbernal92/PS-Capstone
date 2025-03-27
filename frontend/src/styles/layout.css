@@ -1,0 +1,192 @@
+* {
+    box-sizing: border-box;
+  }
+  
+  /* Layout */
+  .app-container {
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+    padding-top: 40px; 
+  }
+  
+  .content-scroll-container {
+    width: 100%;
+    max-width: 800px;
+    height: 460px;  
+    overflow-y: auto;
+    background-color: var(--card-bg);
+    padding: 2rem;
+    border-radius: 16px;
+    /* box-shadow: 0 0 20px rgba(0, 0, 0, 0.4); */
+    /* overflow: hidden; */
+  }
+
+  .settings-inner {
+    max-width: 400px;
+    width: 100%;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+  }  
+  
+  /* Typography */
+  h1, h2, h3, h4 {
+    color: var(--accent-color);
+    text-shadow: var(--accent-glow);
+    margin-bottom: 0.5rem;
+  }
+  
+  a {
+    color: var(--accent-color);
+    text-decoration: none;
+  }
+  a:hover {
+    text-shadow: var(--accent-glow);
+  }
+  
+  /* Form Inputs */
+  input, select, textarea {
+    background-color: var(--input-bg);
+    color: var(--input-text);
+    border: 1px solid var(--accent-color);
+    padding: 0.5rem;
+    border-radius: 4px;
+    font-family: var(--font-family);
+    margin-bottom: 0.5rem;
+  }
+  label {
+    display: block;
+    margin: 0.5rem 0 0.2rem;
+  }
+  textarea {
+    font-family: inherit;
+  }
+  
+  /* Buttons */
+  .btn, button {
+    background: var(--accent-color);
+    color: #fff;
+    border: none;
+    padding: 0.6rem 1.2rem;
+    margin: 0.3rem;
+    border-radius: 6px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: 0.2s ease-in-out;
+    box-shadow: var(--accent-glow);
+  }
+  .btn:hover, button:hover {
+    transform: scale(1.05);
+    box-shadow: 0 0 10px #fff, var(--accent-glow);
+  }
+  
+  /* Cards */
+  .card-container {
+    background: var(--card-bg);
+    padding: 1.2rem;
+    border-radius: 12px;
+    box-shadow: 0 0 15px rgba(255, 78, 219, 0.3);
+    margin: 1rem 0;
+    border: 1px solid var(--accent-color);
+    transition: all 0.3s ease-in-out;
+  }
+  .card-container:hover {
+    box-shadow: 0 0 20px var(--accent-color);
+  }
+  
+  /* Navbar */
+  .top-nav {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    background-color: rgba(0, 0, 0, 0.7);
+    backdrop-filter: blur(4px);
+    z-index: 1000;
+    display: flex;
+    justify-content: space-around;
+    padding: 1rem;
+  }
+  .top-nav a {
+    color: #aaa;
+    font-size: 1rem;
+    font-weight: bold;
+    padding: 0.25rem 0.5rem;
+    transition: all 0.2s ease-in-out;
+  }
+  .top-nav a.active,
+  .top-nav a:hover {
+    color: var(--accent-color);
+    text-shadow: var(--accent-glow);
+  }
+  
+  /* Scrollbar */
+  ::-webkit-scrollbar {
+    width: 8px;
+  }
+  ::-webkit-scrollbar-track {
+    background: #1a1a1a;
+  }
+  ::-webkit-scrollbar-thumb {
+    background: var(--accent-color);
+    border-radius: 8px;
+  }
+  
+  /* Responsive Nav */
+  @media screen and (max-width: 600px) {
+    .top-nav {
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 0.5rem;
+    }
+  }
+
+  .dropdown-row {
+    display: flex;
+    justify-content: space-between;
+    gap: 2rem;
+    flex-wrap: wrap;
+  }
+  
+  .dropdown-row .form-group {
+    flex: 1;
+    min-width: 180px;
+  }
+
+  .form-row {
+    display: flex;
+    gap: 1rem;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    margin-bottom: 1rem;
+  }
+  
+  .form-row > * {
+    flex: 1;
+    min-width: 150px;
+  }
+  
+
+  .workout-grid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+    justify-content: center;
+  }
+  
+  .card-container {
+    flex: 1 1 45%;
+    max-width: 45%;
+  }
+  
+  @media (max-width: 768px) {
+    .card-container {
+      flex: 1 1 100%;
+      max-width: 100%;
+    }
+  }
+  

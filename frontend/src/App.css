@@ -1,42 +1,53 @@
-#root {
-  max-width: 1280px;
-  margin: 0 auto;
-  padding: 2rem;
-  text-align: center;
+/* ========== Font Import ========== */
+@import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&display=swap');
+
+/* ========== Theme Variables ========== */
+:root,
+[data-theme='retro'] {
+  --bg-image: url('./assets/background.png');
+  --bg-color: #fff0f5;
+  --card-bg: #ffe4e1;
+  --text-color: #2a001f;
+  --accent-color: #ff69b4;
+  --accent-glow: 0 0 10px #ff69b4, 0 0 20px #ff69b4;
+  --font-family: 'Orbitron', sans-serif;
+  --input-bg: #fff0f5;
+  --input-text: #2a001f;
 }
 
-.logo {
-  height: 6em;
-  padding: 1.5em;
-  will-change: filter;
-  transition: filter 300ms;
-}
-.logo:hover {
-  filter: drop-shadow(0 0 2em #646cffaa);
-}
-.logo.react:hover {
-  filter: drop-shadow(0 0 2em #61dafbaa);
-}
-
-@keyframes logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+/* ========== Light Theme ========== */
+[data-theme='light'] {
+  --bg-image: url('./assets/light-bg.png');
+  --bg-color: #f4f4f4;
+  --card-bg: #ffffff;
+  --text-color: #111;
+  --accent-color: #2196f3;
+  --accent-glow: none;
+  --input-bg: #fff;
+  --input-text: #000;
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  a:nth-of-type(2) .logo {
-    animation: logo-spin infinite 20s linear;
-  }
+/* ========== Dark Theme ========== */
+[data-theme='dark'] {
+  --bg-image: url('./assets/dark-bg.png');
+  --bg-color: #0d0d0d;
+  --card-bg: rgba(88, 88, 88, 0.85);
+  --text-color: #f8f8f8;
+  --accent-color: #ff4edb;
+  --accent-glow: 0 0 10px #ff4edb, 0 0 20px #ff4edb;
+  --input-bg: #111;
+  --input-text: #f8f8f8;
 }
 
-.card {
-  padding: 2em;
-}
-
-.read-the-docs {
-  color: #888;
+/* ========== Base Styles ========== */
+body {
+  margin: 0;
+  overflow-x: hidden;
+  background: var(--bg-image) center center no-repeat;
+  background-size: cover;
+  background-attachment: fixed;
+  background-color: var(--bg-color); /* Fallback if image fails */
+  font-family: var(--font-family);
+  color: var(--text-color);
+  transition: background 0.3s, color 0.3s;
 }

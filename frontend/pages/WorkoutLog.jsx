@@ -62,36 +62,37 @@ function WorkoutLog() {
             <WorkoutCard onSave={handleAddWorkout} editingWorkout={editingWorkout} />
 
             <h2>Saved Workouts</h2>
-            {sortedWorkouts.length === 0 ? (
-                <p>No workouts logged yet.</p>
-            ) : (
-                sortedWorkouts.map((workout) => {
-                    const workoutDate = new Date(workout.date);
-                    const formattedDate = format(workoutDate, "EEEE, MMMM d, yyyy");
+            <div className="workout-grid">
+                {sortedWorkouts.length === 0 ? (
+                    <p>No workouts logged yet.</p>
+                ) : (
+                    sortedWorkouts.map((workout) => {
+                        const workoutDate = new Date(workout.date);
+                        const formattedDate = format(workoutDate, "EEEE, MMMM d, yyyy");
 
-                    return (
-                        <Card key={workout._id}>
-                            <h3>{formattedDate}</h3>
+                        return (
+                            <Card key={workout._id}>
+                                <h3>{formattedDate}</h3>
 
-                            {workout.exercises.map((ex, i) => (
-                                <div key={i} style={{ marginBottom: '1rem' }}>
-                                    <strong>{ex.exerciseName}</strong>
-                                    <p>Equipment: {ex.equipment}</p>
-                                    <p>Sets: {ex.sets}</p>
-                                    <p>Reps: {ex.reps}</p>
-                                </div>
-                            ))}
+                                {workout.exercises.map((ex, i) => (
+                                    <div key={i} style={{ marginBottom: '1rem' }}>
+                                        <strong>{ex.exerciseName}</strong>
+                                        <p>Equipment: {ex.equipment}</p>
+                                        <p>Sets: {ex.sets}</p>
+                                        <p>Reps: {ex.reps}</p>
+                                    </div>
+                                ))}
 
-                            <button onClick={() => handleEditClick(workout)}>Edit</button>
-                            <button onClick={() => handleDeleteWorkout(workout._id)} style={{ marginLeft: '0.5rem' }}>
-                                Delete
-                            </button>
-                        </Card>
-                    );
-                })
-            )}
-        </div>
-    );
-}
+                                <button onClick={() => handleEditClick(workout)}>Edit</button>
+                                <button onClick={() => handleDeleteWorkout(workout._id)} style={{ marginLeft: '0.5rem' }}>
+                                    Delete
+                                </button>
+                            </Card>
+                        );
+                    })
+                )}
+            </div>
+        </div>);
+    }
 
 export default WorkoutLog;

@@ -174,39 +174,54 @@ function WorkoutCard({ onSave, editingWorkout }) {
     <>
       <h2>Workout Entries</h2>
       <Card>
-        <form onSubmit={handleSubmitWorkout}>
-          <Dropdown
-            label="Body Part"
-            value={selectedBodyPart}
-            onChange={setSelectedBodyPart}
-            options={bodyParts}
-          />
-          <Dropdown
-            label="Equipment"
-            value={selectedEquipment}
-            onChange={setSelectedEquipment}
-            options={equipmentOptions}
-            disabled={equipmentOptions.length === 0}
-          />
-          <Dropdown
-            label="Exercise"
-            value={selectedExercise}
-            onChange={setSelectedExercise}
-            options={filteredExercises.map((e) => e.name)}
-            disabled={filteredExercises.length === 0}
-          />
-          <Input label="Sets" type="number" value={sets} onChange={(e) => setSets(e.target.value)} />
-          <Input label="Reps" type="number" value={reps} onChange={(e) => setReps(e.target.value)} />
-          <Input label={`Weight (${unit})`} type="number" value={weight} onChange={(e) => setWeight(e.target.value)} />
-          <Input label="Workout Date" type="date" value={date} onChange={(e) => setDate(e.target.value)} />
+      <form onSubmit={handleSubmitWorkout}>
 
-          <Button name={`Switch to ${unit === "lbs" ? "kg" : "lbs"}`} onClick={toggleUnit} />
-          <Button
-            name={editingIndex !== null ? "Update Exercise" : "Add Exercise to Session"}
-            onClick={handleAddOrEditExercise}
-          />
-          <Button type="submit" name="Save Workout" />
-        </form>
+{/* Date Selector */}
+<div className="form-row">
+  <Input label="Workout Date" type="date" value={date} onChange={(e) => setDate(e.target.value)} />
+</div>
+
+{/* Row 1: Dropdowns */}
+<div className="form-row">
+  <Dropdown
+    label="Body Part"
+    value={selectedBodyPart}
+    onChange={setSelectedBodyPart}
+    options={bodyParts}
+  />
+  <Dropdown
+    label="Equipment"
+    value={selectedEquipment}
+    onChange={setSelectedEquipment}
+    options={equipmentOptions}
+    disabled={equipmentOptions.length === 0}
+  />
+  <Dropdown
+    label="Exercise"
+    value={selectedExercise}
+    onChange={setSelectedExercise}
+    options={filteredExercises.map((e) => e.name)}
+    disabled={filteredExercises.length === 0}
+  />
+</div>
+
+{/* Row 2: Input fields */}
+<div className="form-row">
+  <Input label="Sets" type="number" value={sets} onChange={(e) => setSets(e.target.value)} />
+  <Input label="Reps" type="number" value={reps} onChange={(e) => setReps(e.target.value)} />
+  <Input label={`Weight (${unit})`} type="number" value={weight} onChange={(e) => setWeight(e.target.value)} />
+</div>
+
+{/* Row 3: Buttons */}
+<div className="form-row">
+  <Button name={`Switch to ${unit === "lbs" ? "kg" : "lbs"}`} onClick={toggleUnit} />
+  <Button
+    name={editingIndex !== null ? "Update Exercise" : "Add Exercise to Session"}
+    onClick={handleAddOrEditExercise}
+  />
+  <Button type="submit" name="Save Workout" />
+</div>
+</form>
 
         {currentSession.length > 0 && (
           <>

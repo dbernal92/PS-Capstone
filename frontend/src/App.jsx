@@ -1,4 +1,5 @@
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { useEffect } from 'react';
 
 import Main from '../components/Main';
 import Dashboard from '../pages/Dashboard';
@@ -7,9 +8,15 @@ import ProgressTracker from "../pages/ProgressTracker";
 import Notes from "../pages/Notes";
 import Settings from "../pages/Settings";
 
-import './App.css'
+import './App.css';
+import '../src/styles/layout.css';
 
 function App() {
+  const theme = localStorage.getItem("theme") || "light";
+
+  useEffect(() => {
+    document.documentElement.setAttribute("data-theme", theme);
+  }, [theme]);
   return (
     <Router>
       <Routes>
