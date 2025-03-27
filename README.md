@@ -107,29 +107,36 @@ npm run dev
 
 ## Resources Used
 
-1. **React Documentation**  
-   Link: [React Docs](https://reactjs.org/docs/getting-started.html)  
+1. **React Documentation**
+   React is a JavaScript library for building user interfaces.  
+   [React Docs](https://reactjs.org/docs/getting-started.html)  
 
-2. **React Router Documentation**  
-   Link: [React Router Docs](https://reactrouter.com/en/main/start/tutorial)  
+2. **React Router Documentation**
+   React Router is used to manage routing in React applications. It helps in navigating between different views or components in the application.
+   [React Router Docs](https://reactrouter.com/en/main/start/tutorial)  
 
-3. **Fetch API Documentation**  
-   Link: [Using the Fetch API](https://developer.mozilla.org/en-US/docs/Web/API/Fetch_API/Using_Fetch)
+4. **Fetch API Documentation**  
+   Fetch API used throughout this project to interact with both local and external APIs.
+   [Using the Fetch API](https://developer.mozilla.org/en-US/docs/Web/API/Fetch_API/Using_Fetch)
 
-4. **Chart.js Documentation**  
+6. **Chart.js Documentation**  
    For rendering progress charts in the Progress Tracker.  
    [Chart.js Docs](https://www.chartjs.org/docs/latest/)
 
-5. **ExerciseDB API**  
-   Link: [ExerciseDB on RapidAPI](https://rapidapi.com/justin-WFnsXH_t6/api/exercisedb)  
+7. **ExerciseDB API**  
+   Used to fetch exercises dynamically based on selected body part and equipment.
+   [ExerciseDB on RapidAPI](https://rapidapi.com/justin-WFnsXH_t6/api/exercisedb)  
 
 ---
 
-## To Do Next
+## Future Features
 
 - Add authentication
 - Build full dashboard with analytics
 - Add notes and progress tracking views
+- Create Quick Log pop-up for workouts
+- Additional theming (video game styling, anime character themes}
+- Music player connected to streaming services
 
 ---
 
