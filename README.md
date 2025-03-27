@@ -29,7 +29,6 @@ A full-stack MERN (MongoDB, Express.js, React, Node.js) fitness tracking applica
 
 ### Theming System
 - Retro Pink 80s Theme
-- Blue PlayStation Retro Theme
 - Light / Dark Mode toggle
 - Theme selection persists using localStorage
 
@@ -135,7 +134,7 @@ npm run dev
 - Build full dashboard with analytics
 - Add notes and progress tracking views
 - Create Quick Log pop-up for workouts
-- Additional theming (video game styling, anime character themes}
+- Additional theming (PlayStation styling, anime character themes}
 - Music player connected to streaming services
 
 ---
