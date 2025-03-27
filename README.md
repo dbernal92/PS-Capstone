@@ -18,8 +18,8 @@ A full-stack MERN (MongoDB, Express.js, React, Node.js) fitness tracking applica
 - Filters available exercises by equipment.
 - Smart dropdowns auto-fill based on selections.
 
-### Notes (Journal)
-- Add journal entries with a date and a 280-character limit.
+### Notes
+- Add entries with a date and a 280-character limit.
 - Edit or delete any entry.
 - Notes are sorted by date and editable inline.
 
@@ -35,7 +35,6 @@ A full-stack MERN (MongoDB, Express.js, React, Node.js) fitness tracking applica
 ### Settings
 - Set your preferred unit (lbs/kg).
 - Switch themes via dropdown.
-- Accent color picker (coming soon or optional).
 
 ---
 
