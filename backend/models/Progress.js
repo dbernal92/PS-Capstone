@@ -3,7 +3,8 @@ import mongoose from 'mongoose';
 const progressSchema = new mongoose.Schema({
   date: {
     type: Date,
-    default: Date.now
+    default: Date.now,
+    index: true
   },
   weight: {
     type: Number

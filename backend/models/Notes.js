@@ -8,6 +8,7 @@ const noteSchema = new mongoose.Schema({
   date: {
     type: Date,
     default: Date.now,
+    index: true
   },
 });
 

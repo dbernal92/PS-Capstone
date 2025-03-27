@@ -38,3 +38,9 @@ export async function fetchExercisesByBodyPart(part) {
         return [];
     }
 }
+
+export async function getWorkouts() {
+    const response = await fetch('http://localhost:4000/api/workouts');
+    if (!response.ok) throw new Error("Failed to fetch workouts");
+    return await response.json();
+  }

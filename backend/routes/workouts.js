@@ -63,22 +63,24 @@ workoutRouter.put("/:id", async (req, res) => {
   
   // DELETE /api/workouts/:id – Delete a workout by ID
 workoutRouter.delete("/:id", async (req, res) => {
-    try {
-      const deletedWorkout = await Workout.findByIdAndDelete(req.params.id);
-  
-      if (!deletedWorkout) {
-        return res.status(404).send("Workout not found");
-      }
-  
-      res.json({ message: "Workout deleted successfully" });
-    } catch (error) {
-      console.error(error);
-      res.status(500).send(error.message);
+  try {
+    const deletedWorkout = await Workout.findByIdAndDelete(req.params.id);
+    if (!deletedWorkout) {
+      return res.status(404).send("Workout not found");
     }
+    res.json({ message: "Workout deleted successfully" });
+  } catch (error) {
+    console.error(error);
+    res.status(500).send(error.message);
+  }
+});
+
+  
+
+  workoutRouter.get('/test', (req, res) => {
+    res.send("Workout route is working");
   });
   
 
+
 export default workoutRouter;
-// POST - Add a new workout
-// PUT - Update a workout
-// DELETE - Delete a workout

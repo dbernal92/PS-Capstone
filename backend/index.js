@@ -41,6 +41,8 @@ app.get('/', (req, res) => {
 });
 
 // API routes
+
+app.options('*', cors());
 app.use('/api/health', healthRouter);
 app.use('/api/dashboard', dashboardRouter);
 app.use('/api/workouts', workoutRouter);
