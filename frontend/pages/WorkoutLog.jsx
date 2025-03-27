@@ -1,8 +1,8 @@
 import { useState, useEffect } from 'react';
+import { format } from 'date-fns'; // Make sure this is installed: npm install date-fns
 import WorkoutCard from '../components/WorkoutCard';
 import Card from '../components/Card';
 import { getWorkouts } from '../src/api';
-
 
 function WorkoutLog() {
     const [workouts, setWorkouts] = useState([]);
@@ -32,6 +32,9 @@ function WorkoutLog() {
     };
 
     const handleDeleteWorkout = async (id) => {
+        const confirmDelete = window.confirm("Are you sure you want to delete this workout?");
+        if (!confirmDelete) return;
+
         try {
             await fetch(`http://localhost:4000/api/workouts/${id}`, {
                 method: "DELETE",
@@ -42,10 +45,14 @@ function WorkoutLog() {
         }
     };
 
-
     const handleEditClick = (workout) => {
         setEditingWorkout(workout);
     };
+
+    // Sort workouts by most recent date
+    const sortedWorkouts = [...workouts].sort(
+        (a, b) => new Date(b.date) - new Date(a.date)
+    );
 
     return (
         <div>
@@ -55,28 +62,33 @@ function WorkoutLog() {
             <WorkoutCard onSave={handleAddWorkout} editingWorkout={editingWorkout} />
 
             <h2>Saved Workouts</h2>
-            {workouts.length === 0 ? (
+            {sortedWorkouts.length === 0 ? (
                 <p>No workouts logged yet.</p>
             ) : (
-                workouts.map((workout, index) => (
-                    <Card key={workout._id || index}>
-                        <h3>Workout {index + 1} – {new Date(workout.date).toLocaleDateString()}</h3>
+                sortedWorkouts.map((workout) => {
+                    const workoutDate = new Date(workout.date);
+                    const formattedDate = format(workoutDate, "EEEE, MMMM d, yyyy");
 
-                        {workout.exercises.map((ex, i) => (
-                            <div key={i} style={{ marginBottom: '1rem' }}>
-                                <strong>{ex.exerciseName}</strong>
-                                <p>Equipment: {ex.equipment}</p>
-                                <p>Sets: {ex.sets}</p>
-                                <p>Reps: {ex.reps}</p>
-                            </div>
-                        ))}
+                    return (
+                        <Card key={workout._id}>
+                            <h3>{formattedDate}</h3>
 
-                        <button onClick={() => handleEditClick(workout)}>Edit</button>
-                        <button onClick={() => handleDeleteWorkout(workout._id)} style={{ marginLeft: '0.5rem' }}>
-                            Delete
-                        </button>
-                    </Card>
-                ))
+                            {workout.exercises.map((ex, i) => (
+                                <div key={i} style={{ marginBottom: '1rem' }}>
+                                    <strong>{ex.exerciseName}</strong>
+                                    <p>Equipment: {ex.equipment}</p>
+                                    <p>Sets: {ex.sets}</p>
+                                    <p>Reps: {ex.reps}</p>
+                                </div>
+                            ))}
+
+                            <button onClick={() => handleEditClick(workout)}>Edit</button>
+                            <button onClick={() => handleDeleteWorkout(workout._id)} style={{ marginLeft: '0.5rem' }}>
+                                Delete
+                            </button>
+                        </Card>
+                    );
+                })
             )}
         </div>
     );
