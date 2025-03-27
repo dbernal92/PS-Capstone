@@ -94,7 +94,7 @@ VITE_EXERCISEDB_API_KEY=your_rapidapi_key_here
 ```
 
 ### 3. Start Backend (PORT 4000 assumed)
-``
+```
 npm run dev
 ```
 
