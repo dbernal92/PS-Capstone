@@ -1,3 +1,4 @@
+
 # Fitness Tracker App
 
 A full-stack MERN (MongoDB, Express.js, React, Node.js) fitness tracking application where users can log their workouts, track progress, and journal their fitness journey. It includes live data integration with the ExerciseDB API and a custom theming system for a retro-style interface.
@@ -83,7 +84,7 @@ backend/
 ## Getting Started
 
 ### 1. Install Dependencies
-```bash
+```
 npm install
 ```
 
@@ -93,34 +94,45 @@ VITE_EXERCISEDB_API_KEY=your_rapidapi_key_here
 ```
 
 ### 3. Start Backend (PORT 4000 assumed)
-```bash
-npm run server
+``
+npm run dev
 ```
 
 ### 4. Start Frontend
-```bash
+```
 npm run dev
 ```
+
+---
+
+## Resources Used
+
+1. **React Documentation**  
+   Link: [React Docs](https://reactjs.org/docs/getting-started.html)  
+
+2. **React Router Documentation**  
+   Link: [React Router Docs](https://reactrouter.com/en/main/start/tutorial)  
+
+3. **Fetch API Documentation**  
+   Link: [Using the Fetch API](https://developer.mozilla.org/en-US/docs/Web/API/Fetch_API/Using_Fetch)
+
+4. **Chart.js Documentation**  
+   For rendering progress charts in the Progress Tracker.  
+   [Chart.js Docs](https://www.chartjs.org/docs/latest/)
+
+5. **ExerciseDB API**  
+   Link: [ExerciseDB on RapidAPI](https://rapidapi.com/justin-WFnsXH_t6/api/exercisedb)  
 
 ---
 
 ## To Do Next
 
 - Add authentication
-- Enable workout editing & deletion
 - Build full dashboard with analytics
 - Add notes and progress tracking views
-
----
-
-## Credits
-
-- **Exercise API**: [ExerciseDB on RapidAPI](https://rapidapi.com/justin-WFnsXH_t6/api/exercisedb)
-- **Built With**: Vite + React + Express + MongoDB
 
 ---
 
 ## Author
 
 Darien B.
-
