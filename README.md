@@ -111,29 +111,6 @@ A full-stack MERN (MongoDB, Express.js, React, Node.js) fitness tracking applica
 
 ---
 
-## Getting Started
-
-### 1. Install Dependencies
-```
-npm install
-```
-
-### 2. Create a `.env` file
-```env
-VITE_EXERCISEDB_API_KEY=your_rapidapi_key_here
-```
-
-### 3. Start Backend (PORT 4000 assumed)
-```
-npm run dev
-```
-
-### 4. Start Frontend
-```
-npm run dev
-```
-
----
 
 ## Resources Used
 
