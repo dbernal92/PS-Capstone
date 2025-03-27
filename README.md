@@ -111,6 +111,14 @@ A full-stack MERN (MongoDB, Express.js, React, Node.js) fitness tracking applica
 
 ---
 
+## Inspiration
+
+1. Ladder Fitness App
+2. Gameboy Advance
+3. PlayStation
+4. Pinterest + Jujutsu Kaisen
+
+---
 
 ## Resources Used
 
@@ -145,8 +153,3 @@ A full-stack MERN (MongoDB, Express.js, React, Node.js) fitness tracking applica
 - Additional theming (PlayStation styling, anime character themes}
 - Music player connected to streaming services
 
----
-
-## Author
-
-Darien B.
