@@ -56,7 +56,7 @@ function WorkoutLog() {
 
     return (
         <div>
-            <h1>Workout Log</h1>
+            <center><h1>Workout Log</h1></center>
 
             {/* Workout entry form */}
             <WorkoutCard onSave={handleAddWorkout} editingWorkout={editingWorkout} />

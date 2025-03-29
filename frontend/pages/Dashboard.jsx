@@ -59,14 +59,15 @@ function Dashboard() {
 
     return (
         <div>
+            <center>
             <h1>Dashboard</h1>
+
+            <br />
 
             <Button
                 name="+ Quick Log Workout"
                 onClick={() => window.location.href = "/workouts"}
-            />
-
-            <br /><br />
+            /></center>
 
             {/* This Week's Activity */}
             <Card>
@@ -111,7 +112,7 @@ function Dashboard() {
                     </ul>
                 )}
                 <div style={{ textAlign: "center", marginTop: "1rem" }}>
-                    <Button name="View All Workouts" onClick={() => window.location.href = "/workout-log"} />
+                    <Button name="View All Workouts" onClick={() => window.location.href = "/workouts"} />
                 </div>
             </Card>
 

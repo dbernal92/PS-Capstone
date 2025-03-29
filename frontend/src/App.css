@@ -22,7 +22,7 @@
   --card-bg: #ffffff;
   --text-color: #111;
   --accent-color: #2196f3;
-  --accent-glow: none;
+  --accent-glow: 0 0 10px #2196f3, 0 0 20px #2196f3;
   --input-bg: #fff;
   --input-text: #000;
 }

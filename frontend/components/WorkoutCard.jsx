@@ -172,7 +172,6 @@ function WorkoutCard({ onSave, editingWorkout }) {
 
   return (
     <>
-      <h2>Workout Entries</h2>
       <Card>
       <form onSubmit={handleSubmitWorkout}>
 

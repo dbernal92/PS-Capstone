@@ -13,15 +13,38 @@ notesRouter.get('/', async (req, res) => {
   }
 });
 
-// POST - Create new note
-notesRouter.post('/', async (req, res) => {
+// POST - Create a new note
+notesRouter.post("/", async (req, res) => {
   try {
-    const newNote = new Note(req.body);
-    const savedNote = await newNote.save();
+    const note = new Note({
+      text: req.body.text,
+      date: req.body.date || new Date()
+    });
+    const savedNote = await note.save();
     res.status(201).json(savedNote);
-  } catch (error) {
-    console.error(error);
-    res.status(500).send(error.message);
+  } catch (err) {
+    console.error(err);
+    res.status(500).send("Failed to save note");
+  }
+});
+
+// PUT - Edit note
+notesRouter.put("/:id", async (req, res) => {
+  try {
+    const updated = await Note.findByIdAndUpdate(
+      req.params.id,
+      {
+        text: req.body.text,
+        date: req.body.date
+      },
+      { new: true, runValidators: true }
+    );
+
+    if (!updated) return res.status(404).send("Note not found");
+    res.json(updated);
+  } catch (err) {
+    console.error(err);
+    res.status(500).send("Failed to update note");
   }
 });
 
@@ -42,7 +65,3 @@ notesRouter.delete('/:id', async (req, res) => {
 });
 
 export default notesRouter;
-
-// GET - Get all journal entries
-// POST - Add a new journal entry
-// DELETE - Delete a journal entry
